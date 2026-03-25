@@ -322,10 +322,10 @@
   async function fetchPosts() {
     showSkeletons();
     try {
-      const url = `https://api.allorigins.win/get?url=${encodeURIComponent(BLOG_URL + '/feeds/posts/default?alt=json&max-results=50&orderby=published')}`;
+      const url = `https://corsproxy.io/?${encodeURIComponent(BLOG_URL + '/feeds/posts/default?alt=json&max-results=50&orderby=published')}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error('Feed fetch failed');
-      const data = JSON.parse((await res.json()).contents);
+      const data = await res.json();
       const entries = data.feed?.entry || [];
 
       allPosts = entries.map(e => ({
