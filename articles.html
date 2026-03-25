@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Articles — The Luxe Edit</title>
+<meta name="description" content="Curated luxury lifestyle articles on cars, travel, sport, fashion, and living.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ── CONFIG: change BLOG_URL in the <script> below ── */
+  :root {
+    --cream: #F8F4EE;
+    --black: #0E0E0E;
+    --charcoal: #1C1C1C;
+    --gold: #B8965A;
+    --gold-light: #D4AE72;
+    --muted: #8A8276;
+    --border: #E2DDD6;
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--black);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 68px;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.15em;
+    text-transform: uppercase; text-decoration: none;
+  }
+  .nav-logo em { color: #fff; font-weight: 300; font-style: italic; font-size: 20px; letter-spacing: 0.05em; text-transform: none; margin-left: 4px; }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { color: #6A6460; text-decoration: none; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+  /* HERO */
+  .page-hero {
+    background: var(--black);
+    padding: 64px 48px 56px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .page-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(184,150,90,0.03) 80px, rgba(184,150,90,0.03) 81px);
+  }
+  .eyebrow { font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; font-weight: 500; position: relative; }
+  .page-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 6vw, 68px); font-weight: 300; color: #fff; line-height: 1.1; letter-spacing: 0.02em; position: relative; }
+  .page-hero h1 em { color: var(--gold); font-style: italic; }
+  .hero-sub { margin-top: 16px; color: #4A4642; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; position: relative; }
+  .hero-rule { width: 40px; height: 1px; background: var(--gold); margin: 20px auto 0; opacity: 0.5; }
+
+  /* FILTER */
+  .filter-bar {
+    background: var(--white); border-bottom: 1px solid var(--border);
+    position: sticky; top: 68px; z-index: 90;
+    padding: 0 48px; display: flex; gap: 0;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-btn {
+    background: none; border: none;
+    padding: 18px 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); cursor: pointer; position: relative; white-space: nowrap;
+    transition: color 0.2s;
+  }
+  .filter-btn::after { content: ''; position: absolute; bottom: 0; left: 50%; right: 50%; height: 2px; background: var(--gold); transition: left 0.25s, right 0.25s; }
+  .filter-btn:hover { color: var(--charcoal); }
+  .filter-btn.active { color: var(--charcoal); }
+  .filter-btn.active::after { left: 24px; right: 24px; }
+
+  /* MAIN */
+  .articles-section { max-width: 1280px; margin: 0 auto; padding: 56px 48px 96px; }
+  .section-meta { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 40px; }
+  .section-meta span { color: var(--charcoal); font-weight: 500; }
+
+  /* GRID */
+  .article-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+
+  /* CARD */
+  .article-card {
+    background: var(--white); overflow: hidden; cursor: pointer;
+    transition: transform 0.3s ease;
+    animation: fadeUp 0.5s ease both;
+    text-decoration: none; color: inherit; display: block;
+  }
+  .article-card:hover { transform: translateY(-3px); }
+  .article-card:hover .card-img img { transform: scale(1.04); }
+  .article-card:hover .card-title { color: var(--gold); }
+  .article-card.featured { grid-column: span 2; }
+
+  .card-img { overflow: hidden; background: #14120E; aspect-ratio: 16/9; }
+  .article-card.featured .card-img { aspect-ratio: 21/9; }
+  .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; opacity: 0.85; }
+  .card-img .no-img { width: 100%; height: 100%; background: linear-gradient(135deg, #1A1510 0%, #2C1F0E 60%, #1E1810 100%); display: flex; align-items: center; justify-content: center; }
+  .no-img svg { opacity: 0.12; }
+
+  .card-body { padding: 28px 28px 32px; border-top: 1px solid var(--border); }
+  .card-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .card-cat { font-size: 8px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; padding: 4px 10px; border: 1px solid; }
+  .cat-cars    { color: #B8905A; border-color: #B8905A; }
+  .cat-travel  { color: #5A9E8B; border-color: #5A9E8B; }
+  .cat-sports  { color: #7A6BAE; border-color: #7A6BAE; }
+  .cat-fashion { color: #9E6B7A; border-color: #9E6B7A; }
+  .cat-living  { color: #5A7A9E; border-color: #5A7A9E; }
+  .cat-default { color: var(--gold); border-color: var(--gold); }
+  .card-date { font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
+
+  .card-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; line-height: 1.3; color: var(--charcoal); transition: color 0.2s; margin-bottom: 12px; }
+  .article-card.featured .card-title { font-size: 30px; line-height: 1.2; }
+  .card-excerpt { font-size: 12px; line-height: 1.8; color: var(--muted); font-weight: 300; }
+  .card-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--charcoal); transition: gap 0.2s; }
+  .card-cta:hover { gap: 14px; }
+  .card-cta::after { content: '→'; font-size: 12px; }
+
+  /* SKELETON LOADING */
+  .skeleton { background: #E8E3DB; border-radius: 2px; animation: pulse 1.4s ease-in-out infinite; }
+  .sk-img { aspect-ratio: 16/9; width: 100%; }
+  .sk-tag { height: 20px; width: 80px; margin-bottom: 14px; }
+  .sk-title { height: 22px; width: 90%; margin-bottom: 8px; }
+  .sk-title-2 { height: 22px; width: 70%; margin-bottom: 12px; }
+  .sk-line { height: 12px; margin-bottom: 6px; }
+  .sk-line-short { height: 12px; width: 60%; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* EMPTY / ERROR */
+  .state-message { text-align: center; padding: 80px 24px; color: var(--muted); }
+  .state-message h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; margin-bottom: 12px; color: var(--charcoal); }
+  .state-message p { font-size: 12px; line-height: 1.8; max-width: 360px; margin: 0 auto; }
+
+  /* LOAD MORE */
+  .load-more-wrap { text-align: center; margin-top: 64px; padding-top: 48px; border-top: 1px solid var(--border); }
+  .load-more-btn {
+    background: none; border: 1px solid var(--charcoal);
+    padding: 16px 48px; font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase;
+    cursor: pointer; color: var(--charcoal); transition: all 0.25s;
+  }
+  .load-more-btn:hover { background: var(--charcoal); color: var(--cream); }
+  .load-more-btn:disabled { opacity: 0.3; cursor: default; }
+
+  /* FOOTER */
+  footer { background: var(--black); color: #4A4642; padding: 56px 48px 40px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid #1A1A1A; margin-bottom: 32px; }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 12px; }
+  .footer-tagline { font-size: 11px; line-height: 1.8; color: #3A3632; max-width: 260px; }
+  .footer-col h4 { font-size: 8px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 18px; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; font-size: 11px; }
+  .footer-col a { color: #3A3632; text-decoration: none; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--gold-light); }
+  .subscribe-row { display: flex; }
+  .subscribe-row input { flex: 1; background: #1A1816; border: 1px solid #222; border-right: none; padding: 10px 14px; font-family: 'Montserrat', sans-serif; font-size: 10px; color: #6A6460; outline: none; }
+  .subscribe-row button { background: var(--gold); border: none; padding: 10px 16px; font-size: 9px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--black); cursor: pointer; font-family: 'Montserrat', sans-serif; transition: background 0.2s; }
+  .subscribe-row button:hover { background: var(--gold-light); }
+  .footer-bottom { display: flex; justify-content: space-between; font-size: 10px; letter-spacing: 0.06em; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    nav { padding: 0 24px; }
+    .page-hero { padding: 48px 24px; }
+    .filter-bar { padding: 0 16px; }
+    .articles-section { padding: 40px 24px 64px; }
+    .article-grid { grid-template-columns: 1fr 1fr; }
+    .article-card.featured { grid-column: span 2; }
+    footer { padding: 40px 24px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 600px) {
+    .article-grid { grid-template-columns: 1fr; }
+    .article-card.featured { grid-column: span 1; }
+    .nav-links { display: none; }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">THE LUXE <em>Edit</em></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="articles.html" class="active">Articles</a></li>
+    <li><a href="index.html#categories">Categories</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <p class="eyebrow">The finest in luxury living</p>
+  <h1>All <em>Articles</em></h1>
+  <p class="hero-sub">Cars · Travel · Sports · Fashion · Living</p>
+  <div class="hero-rule"></div>
+</div>
+
+<div class="filter-bar">
+  <button class="filter-btn active" data-cat="all">All</button>
+  <button class="filter-btn" data-cat="Cars">Automotive</button>
+  <button class="filter-btn" data-cat="Travel">Travel</button>
+  <button class="filter-btn" data-cat="Sports">Sports</button>
+  <button class="filter-btn" data-cat="Fashion">Fashion</button>
+  <button class="filter-btn" data-cat="Living">Living</button>
+</div>
+
+<section class="articles-section">
+  <p class="section-meta"><span id="count">—</span> articles</p>
+  <div class="article-grid" id="grid"></div>
+  <div class="load-more-wrap" id="load-more-wrap" style="display:none">
+    <button class="load-more-btn" id="load-more-btn">Load More Articles</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">The Luxe Edit</div>
+      <p class="footer-tagline">A curated window into the world's finest cars, destinations, sport, fashion, and living.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="articles.html">Articles</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Topics</h4>
+      <ul>
+        <li><a href="#" onclick="filterBy('Cars')">Automotive</a></li>
+        <li><a href="#" onclick="filterBy('Travel')">Travel</a></li>
+        <li><a href="#" onclick="filterBy('Sports')">Sports</a></li>
+        <li><a href="#" onclick="filterBy('Fashion')">Fashion</a></li>
+        <li><a href="#" onclick="filterBy('Living')">Living</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Subscribe</h4>
+      <p style="font-size:11px;line-height:1.7;margin-bottom:14px;color:#3A3632;">New articles, curated for those with a taste for the exceptional.</p>
+      <div class="subscribe-row">
+        <input type="email" placeholder="your@email.com">
+        <button>Join</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 The Luxe Edit. All rights reserved.</span>
+    <span style="color:#222;">Powered by Claude + Blogger</span>
+  </div>
+</footer>
+
+<script>
+  /* ═══════════════════════════════════════════
+     CONFIG — CHANGE THIS TO YOUR BLOGGER URL
+     예시: 'https://your-blog-name.blogspot.com'
+     또는 커스텀 도메인: 'https://yourdomain.com'
+  ═══════════════════════════════════════════ */
+  const BLOG_URL = 'https://YOUR-BLOG-NAME.blogspot.com';
+  const POSTS_PER_PAGE = 9;
+
+  /* ─── State ─── */
+  let allPosts = [];
+  let filteredPosts = [];
+  let displayedCount = 0;
+  let currentCat = 'all';
+
+  /* ─── Category helpers ─── */
+  const CAT_CLASS = {
+    'Cars': 'cat-cars', 'Automotive': 'cat-cars',
+    'Travel': 'cat-travel',
+    'Sports': 'cat-sports', 'F1': 'cat-sports', 'EPL': 'cat-sports', 'La Liga': 'cat-sports',
+    'Fashion': 'cat-fashion', 'Fashion Week': 'cat-fashion',
+    'Living': 'cat-living', 'Interior Design': 'cat-living',
+  };
+
+  function getCatClass(labels) {
+    for (const l of (labels || [])) {
+      if (CAT_CLASS[l]) return CAT_CLASS[l];
+    }
+    return 'cat-default';
+  }
+
+  function getPrimaryLabel(labels) {
+    const priority = ['Cars','Travel','Sports','Fashion','Living'];
+    for (const p of priority) {
+      if ((labels || []).includes(p)) return p;
+    }
+    return labels?.[0] || 'Lifestyle';
+  }
+
+  function matchesCat(labels, cat) {
+    if (cat === 'all') return true;
+    const labelMap = {
+      'Cars': ['Cars','Automotive','Mercedes-Benz','Porsche'],
+      'Travel': ['Travel','Luxury Travel','Hotels','Four Seasons','Aman'],
+      'Sports': ['Sports','F1','Tennis','EPL','La Liga','Luxury Sports'],
+      'Fashion': ['Fashion','Fashion Week','Luxury Fashion','Style'],
+      'Living': ['Living','Interior Design','Luxury Living','Home'],
+    };
+    const allowed = labelMap[cat] || [cat];
+    return (labels || []).some(l => allowed.includes(l));
+  }
+
+  /* ─── Fetch from Blogger JSON feed ─── */
+  async function fetchPosts() {
+    showSkeletons();
+    try {
+      const url = `${BLOG_URL}/feeds/posts/default?alt=json&max-results=50&orderby=published`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Feed fetch failed');
+      const data = await res.json();
+      const entries = data.feed?.entry || [];
+
+      allPosts = entries.map(e => ({
+        title: e.title?.$t || 'Untitled',
+        excerpt: stripHtml(e.summary?.$t || e.content?.$t || '').slice(0, 160) + '...',
+        date: formatDate(e.published?.$t),
+        url: e.link?.find(l => l.rel === 'alternate')?.href || '#',
+        labels: e.category?.map(c => c.term) || [],
+        thumbnail: e['media$thumbnail']?.url?.replace('/s72-c/', '/s600-c/') || null,
+      }));
+
+      applyFilter(currentCat);
+    } catch (err) {
+      showError();
+    }
+  }
+
+  /* ─── Render ─── */
+  function applyFilter(cat) {
+    currentCat = cat;
+    filteredPosts = cat === 'all' ? allPosts : allPosts.filter(p => matchesCat(p.labels, cat));
+    displayedCount = 0;
+    document.getElementById('grid').innerHTML = '';
+    renderBatch();
+    updateCount();
+  }
+
+  function renderBatch() {
+    const grid = document.getElementById('grid');
+    const batch = filteredPosts.slice(displayedCount, displayedCount + POSTS_PER_PAGE);
+
+    batch.forEach((post, i) => {
+      const isFirst = displayedCount === 0 && i === 0;
+      const card = buildCard(post, isFirst);
+      card.style.animationDelay = (i * 0.07) + 's';
+      grid.appendChild(card);
+    });
+
+    displayedCount += batch.length;
+
+    const wrap = document.getElementById('load-more-wrap');
+    const btn = document.getElementById('load-more-btn');
+    if (displayedCount < filteredPosts.length) {
+      wrap.style.display = 'block';
+      btn.disabled = false;
+    } else {
+      wrap.style.display = 'none';
+    }
+  }
+
+  function buildCard(post, featured) {
+    const a = document.createElement('a');
+    a.href = post.url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.className = 'article-card' + (featured ? ' featured' : '');
+
+    const catClass = getCatClass(post.labels);
+    const label = getPrimaryLabel(post.labels);
+
+    a.innerHTML = `
+      <div class="card-img">
+        ${post.thumbnail
+          ? `<img src="${post.thumbnail}" alt="${escHtml(post.title)}" loading="lazy">`
+          : `<div class="no-img">${categoryIcon(label)}</div>`}
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-cat ${catClass}">${escHtml(label)}</span>
+          <span class="card-date">${post.date}</span>
+        </div>
+        <h2 class="card-title">${escHtml(post.title)}</h2>
+        <p class="card-excerpt">${escHtml(post.excerpt)}</p>
+        <span class="card-cta">Read Article</span>
+      </div>`;
+    return a;
+  }
+
+  /* ─── Skeleton loaders ─── */
+  function showSkeletons() {
+    const grid = document.getElementById('grid');
+    grid.innerHTML = Array.from({length: 6}, (_, i) => `
+      <div class="article-card${i === 0 ? ' featured' : ''}">
+        <div class="skeleton sk-img"></div>
+        <div class="card-body">
+          <div class="skeleton sk-tag"></div>
+          <div class="skeleton sk-title"></div>
+          <div class="skeleton sk-title-2"></div>
+          <div class="skeleton sk-line" style="width:95%"></div>
+          <div class="skeleton sk-line" style="width:85%"></div>
+          <div class="skeleton sk-line-short"></div>
+        </div>
+      </div>`).join('');
+    document.getElementById('count').textContent = '—';
+  }
+
+  function showError() {
+    document.getElementById('grid').innerHTML = `
+      <div class="state-message" style="grid-column:1/-1">
+        <h3>Unable to load articles</h3>
+        <p>Please check that the BLOG_URL is set correctly in articles.html, and that the blog's public feed is accessible.</p>
+      </div>`;
+  }
+
+  /* ─── UI helpers ─── */
+  function updateCount() {
+    document.getElementById('count').textContent = filteredPosts.length;
+  }
+
+  function filterBy(cat) {
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.cat === cat || (cat === 'all' && b.dataset.cat === 'all'));
+    });
+    applyFilter(cat);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function stripHtml(html) {
+    const d = document.createElement('div');
+    d.innerHTML = html;
+    return d.textContent || d.innerText || '';
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '';
+    try {
+      return new Date(iso).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    } catch { return ''; }
+  }
+
+  function categoryIcon(label) {
+    const icons = {
+      Cars: `<svg width="56" height="44" viewBox="0 0 56 44" fill="none"><path d="M8 28L6 20L16 12H40L50 20L50 28" stroke="#B8905A" stroke-width="1.5"/><line x1="4" y1="28" x2="52" y2="28" stroke="#B8905A" stroke-width="1.5"/><circle cx="14" cy="34" r="5" stroke="#B8905A" stroke-width="1.5"/><circle cx="42" cy="34" r="5" stroke="#B8905A" stroke-width="1.5"/></svg>`,
+      Travel: `<svg width="52" height="52" viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="18" stroke="#5A9E8B" stroke-width="1.5"/><ellipse cx="26" cy="26" rx="9" ry="18" stroke="#5A9E8B" stroke-width="1"/><line x1="8" y1="26" x2="44" y2="26" stroke="#5A9E8B" stroke-width="1" stroke-dasharray="3 2"/></svg>`,
+      Sports: `<svg width="52" height="52" viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="18" stroke="#7A6BAE" stroke-width="1.5"/><path d="M14 10C14 10 26 22 38 10" stroke="#7A6BAE" stroke-width="1.2" fill="none"/><path d="M14 42C14 42 26 30 38 42" stroke="#7A6BAE" stroke-width="1.2" fill="none"/></svg>`,
+      Fashion: `<svg width="48" height="56" viewBox="0 0 48 56" fill="none"><path d="M24 4L8 12V44L24 52L40 44V12L24 4Z" stroke="#9E6B7A" stroke-width="1.5"/><line x1="8" y1="12" x2="40" y2="44" stroke="#9E6B7A" stroke-width="0.8" stroke-dasharray="3 3"/></svg>`,
+      Living: `<svg width="52" height="48" viewBox="0 0 52 48" fill="none"><rect x="4" y="20" width="44" height="24" rx="2" stroke="#5A7A9E" stroke-width="1.5"/><rect x="14" y="8" width="24" height="16" rx="2" stroke="#5A7A9E" stroke-width="1.2"/><line x1="26" y1="4" x2="26" y2="8" stroke="#5A7A9E" stroke-width="1.5"/></svg>`,
+    };
+    return icons[label] || icons['Travel'];
+  }
+
+  /* ─── Event listeners ─── */
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilter(btn.dataset.cat);
+    });
+  });
+
+  document.getElementById('load-more-btn').addEventListener('click', renderBatch);
+
+  /* ─── Init ─── */
+  fetchPosts();
+</script>
+</body>
+</html>
