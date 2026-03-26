@@ -8,6 +8,7 @@ Required GitHub Secrets:
   - GOOGLE_CLIENT_SECRET
   - GOOGLE_REFRESH_TOKEN
   - BLOG_ID
+  - UNSPLASH_ACCESS_KEY
 """
 
 import os
@@ -24,6 +25,7 @@ GOOGLE_CLIENT_ID     = os.environ["GOOGLE_CLIENT_ID"]
 GOOGLE_CLIENT_SECRET = os.environ["GOOGLE_CLIENT_SECRET"]
 GOOGLE_REFRESH_TOKEN = os.environ["GOOGLE_REFRESH_TOKEN"]
 BLOG_ID              = os.environ["BLOG_ID"]
+UNSPLASH_ACCESS_KEY  = os.environ["UNSPLASH_ACCESS_KEY"]
 
 # ──────────────────────────────────────────
 # Get Google Access Token (via Refresh Token)
@@ -43,6 +45,40 @@ def get_access_token():
     return token
 
 # ──────────────────────────────────────────
+# Fetch image from Unsplash
+# ──────────────────────────────────────────
+def fetch_unsplash_image(keyword: str) -> dict:
+    """Search Unsplash and return the best matching image."""
+    try:
+        res = requests.get(
+            "https://api.unsplash.com/search/photos",
+            params={
+                "query": keyword,
+                "per_page": 5,
+                "orientation": "landscape",
+                "content_filter": "high",
+            },
+            headers={"Authorization": f"Client-ID {UNSPLASH_ACCESS_KEY}"},
+        )
+        res.raise_for_status()
+        results = res.json().get("results", [])
+        if not results:
+            return None
+
+        photo = results[0]
+        return {
+            "url": photo["urls"]["regular"],
+            "thumb": photo["urls"]["small"],
+            "alt": photo.get("alt_description") or keyword,
+            "photographer": photo["user"]["name"],
+            "photographer_url": photo["user"]["links"]["html"],
+            "unsplash_url": photo["links"]["html"],
+        }
+    except Exception as e:
+        print(f"⚠️ Unsplash fetch failed: {e}")
+        return None
+
+# ──────────────────────────────────────────
 # Common style guide
 # ──────────────────────────────────────────
 COMMON_STYLE = """
@@ -58,6 +94,7 @@ COMMON_STYLE = """
     <p>Body paragraph...</p>
     <h3>Sub-section heading (if needed)</h3>
     <p>Body paragraph...</p>
+- Second to last line: [IMAGE]2-4 word Unsplash search keyword for a beautiful hero image (e.g. "luxury sports car", "venice canal hotel", "formula one race")[/IMAGE]
 - Final line: [META]Up to 155 characters of SEO meta description in English[/META]
 - Reference today's date for recency: {date}
 """.format(date=datetime.now().strftime("%B %Y"))
@@ -207,6 +244,12 @@ def generate_post(topic: str) -> dict:
         meta = raw.split("[META]")[1].split("[/META]")[0].strip()
         raw = raw.split("[META]")[0].strip()
 
+    # Extract IMAGE keyword
+    image_keyword = topic.lower()
+    if "[IMAGE]" in raw and "[/IMAGE]" in raw:
+        image_keyword = raw.split("[IMAGE]")[1].split("[/IMAGE]")[0].strip()
+        raw = raw.split("[IMAGE]")[0].strip()
+
     # Separate title from body
     lines = raw.strip().split("\n")
     title = lines[0].replace("#", "").strip()
@@ -218,10 +261,35 @@ def generate_post(topic: str) -> dict:
         content = raw
 
     print(f"✅ Post generated: {title}")
-    return {"title": title, "content": content, "meta": meta}
+    print(f"🔍 Image keyword: {image_keyword}")
+    return {"title": title, "content": content, "meta": meta, "image_keyword": image_keyword}
 
 # ──────────────────────────────────────────
-# Step 2: Publish to Blogger (OAuth2)
+# Step 2: Build content with hero image
+# ──────────────────────────────────────────
+def build_content_with_image(content: str, image_keyword: str) -> str:
+    """Fetch Unsplash image and prepend as hero image to content."""
+    image = fetch_unsplash_image(image_keyword)
+
+    if not image:
+        print("⚠️ No image found, posting without image")
+        return content
+
+    hero_html = f"""<div style="margin-bottom: 32px;">
+  <img src="{image['url']}"
+       alt="{image['alt']}"
+       style="width:100%; max-height:520px; object-fit:cover; display:block;" />
+  <p style="font-size:11px; color:#888; margin-top:6px; text-align:right;">
+    Photo by <a href="{image['photographer_url']}?utm_source=luxury_blog&utm_medium=referral" target="_blank" style="color:#888;">{image['photographer']}</a>
+    on <a href="https://unsplash.com/?utm_source=luxury_blog&utm_medium=referral" target="_blank" style="color:#888;">Unsplash</a>
+  </p>
+</div>
+"""
+    print(f"✅ Image added: {image['url'][:60]}...")
+    return hero_html + content
+
+# ──────────────────────────────────────────
+# Step 3: Publish to Blogger (OAuth2)
 # ──────────────────────────────────────────
 def post_to_blogger(title: str, content: str, topic: str, access_token: str):
     labels_map = {
@@ -263,8 +331,11 @@ def main():
     # Generate post
     post = generate_post(topic)
 
+    # Add hero image
+    content_with_image = build_content_with_image(post["content"], post["image_keyword"])
+
     # Publish
-    post_to_blogger(post["title"], post["content"], topic, access_token)
+    post_to_blogger(post["title"], content_with_image, topic, access_token)
 
 if __name__ == "__main__":
     main()
