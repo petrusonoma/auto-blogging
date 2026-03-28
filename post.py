@@ -70,7 +70,7 @@ def fetch_unsplash_image(keyword: str) -> dict:
         results = res.json().get("results", [])
         if results:
             print(f"✅ Unsplash image found: {keyword}")
-            photo = results[0]
+            random.choice(results)
             return {
                 "url": photo["urls"]["regular"],
                 "alt": photo.get("alt_description") or keyword,
@@ -98,7 +98,7 @@ def fetch_pexels_image(keyword: str) -> dict:
         photos = res.json().get("photos", [])
         if photos:
             print(f"✅ Pexels image found: {keyword}")
-            photo = photos[0]
+            random.choice(results)
             return {
                 "url": photo["src"]["large"],
                 "alt": photo.get("alt") or keyword,
