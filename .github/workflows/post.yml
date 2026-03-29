@@ -31,4 +31,4 @@ jobs:
           BLOG_ID:              ${{ secrets.BLOG_ID }}
           UNSPLASH_ACCESS_KEY:  ${{ secrets.UNSPLASH_ACCESS_KEY }}
           PEXELS_API_KEY:       ${{ secrets.PEXELS_API_KEY }}
-        run: python post.py
+        run: python blog/post.py
