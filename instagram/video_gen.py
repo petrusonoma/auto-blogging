@@ -104,7 +104,7 @@ def build_video(scenes: list[dict], image_paths: list[str], output_path: str, mu
             "-f", "concat", "-safe", "0", "-i", concat_list,
             "-i", music_path,
             "-filter_complex",
-            f"[1:a]volume=0.25,afade=t=out:st={total_duration-2}:d=2[music]",
+            f"[1:a]volume=0.5,afade=t=out:st={total_duration-2}:d=2[music]",
             "-map", "0:v",
             "-map", "[music]",
             "-c:v", "libx264",
