@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scenario Studio — jay_elements</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #f5f0e8; --dark: #1a1714; --gold: #b8965a;
+    --gold-light: #d4b07a; --muted: #8a8070; --border: #ddd5c0; --input-bg: #faf7f2;
+  }
+  body { background: var(--cream); font-family: 'Jost', sans-serif; color: var(--dark); min-height: 100vh; padding: 32px 20px; }
+  .container { max-width: 720px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--gold); padding-bottom: 20px; margin-bottom: 36px; }
+  .eyebrow { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  h1 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; letter-spacing: 1px; }
+  h1 em { font-style: italic; color: var(--gold); }
+  .section { margin-bottom: 32px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .row { display: flex; gap: 12px; margin-bottom: 12px; }
+  .row > * { flex: 1; }
+  label { display: block; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+  input, select, textarea { width: 100%; background: var(--input-bg); border: 1px solid var(--border); border-radius: 2px; padding: 10px 12px; font-family: 'Jost', sans-serif; font-size: 13px; color: var(--dark); outline: none; transition: border-color 0.2s; }
+  input:focus, select:focus, textarea:focus { border-color: var(--gold); }
+  textarea { resize: vertical; min-height: 72px; line-height: 1.6; }
+  select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23b8965a'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; cursor: pointer; }
+  .scene-block { background: var(--input-bg); border: 1px solid var(--border); border-left: 2px solid var(--gold); border-radius: 2px; padding: 14px; margin-bottom: 10px; }
+  .scene-num { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .image-upload-zone { border: 2px dashed var(--border); border-radius: 4px; padding: 24px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; background: var(--input-bg); margin-bottom: 12px; position: relative; }
+  .image-upload-zone:hover { border-color: var(--gold); background: #fdf9f3; }
+  .image-upload-zone.dragover { border-color: var(--gold); background: #fdf9f3; }
+  .image-upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .upload-icon { font-size: 24px; margin-bottom: 8px; color: var(--gold); }
+  .upload-text { font-size: 12px; color: var(--muted); letter-spacing: 1px; }
+  .upload-hint { font-size: 11px; color: var(--border); margin-top: 4px; font-style: italic; }
+  .image-previews { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+  .preview-item { position: relative; width: 90px; height: 120px; border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
+  .preview-item img { width: 100%; height: 100%; object-fit: cover; }
+  .preview-item .remove-btn { position: absolute; top: 4px; right: 4px; background: var(--dark); color: var(--gold-light); border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .preview-item .upload-status { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(26,23,20,0.8); color: var(--gold-light); font-size: 9px; letter-spacing: 1px; text-align: center; padding: 3px; }
+  .preview-item .upload-status.done { color: #7ab87a; }
+  .preview-item .upload-status.error { color: #b87a7a; }
+  .queries-label { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+  .queries-label span { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .queries-label small { font-size: 10px; color: var(--gold); }
+  .github-section { background: var(--dark); border-radius: 4px; padding: 24px; margin-bottom: 32px; }
+  .github-section .section-title { color: var(--gold-light); border-color: #3a3530; }
+  .github-section label { color: #8a8070; }
+  .github-section input { background: #2a2520; border-color: #3a3530; color: #f5f0e8; }
+  .github-section input:focus { border-color: var(--gold); }
+  .btn { width: 100%; padding: 16px; background: var(--dark); color: var(--gold-light); border: none; border-radius: 2px; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: background 0.2s, color 0.2s; }
+  .btn:hover { background: var(--gold); color: var(--dark); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 10px; font-size: 10px; letter-spacing: 2px; margin-top: 8px; }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); background: transparent; }
+  .status { padding: 14px 16px; border-radius: 2px; font-size: 12px; letter-spacing: 1px; margin-bottom: 20px; display: none; }
+  .status.success { background: #1a2a1a; color: #7ab87a; border: 1px solid #2a4a2a; display: block; }
+  .status.error { background: #2a1a1a; color: #b87a7a; border: 1px solid #4a2a2a; display: block; }
+  .status.loading { background: #1a1a2a; color: #7a7ab8; border: 1px solid #2a2a4a; display: block; }
+  .hint { font-size: 11px; color: var(--muted); margin-top: 4px; font-style: italic; }
+  .image-count-badge { display: inline-block; background: var(--gold); color: var(--dark); font-size: 9px; letter-spacing: 2px; padding: 2px 7px; border-radius: 10px; margin-left: 8px; vertical-align: middle; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="eyebrow">jay_elements</div>
+    <h1>Scenario <em>Studio</em></h1>
+  </header>
+
+  <div id="status" class="status"></div>
+
+  <div class="section">
+    <div class="section-title">Post Configuration</div>
+    <div class="row">
+      <div>
+        <label>Format</label>
+        <select id="format" onchange="toggleBrand()">
+          <option value="story">Brand Story</option>
+          <option value="lifestyle">Lifestyle Quote</option>
+          <option value="top3">Top 3</option>
+        </select>
+      </div>
+      <div>
+        <label>Category</label>
+        <select id="category">
+          <option value="fashion">Fashion</option>
+          <option value="living">Living</option>
+        </select>
+      </div>
+    </div>
+    <div id="brand-field">
+      <label>Brand</label>
+      <input type="text" id="brand" placeholder="e.g. Herend">
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Scenes</div>
+    <div id="scenes-container"></div>
+    <button class="btn btn-secondary" onclick="addScene()">+ Add Scene</button>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Caption</div>
+    <div style="margin-bottom:12px">
+      <label>Hook</label>
+      <textarea id="hook" placeholder="Compelling opening question or surprising fact..."></textarea>
+    </div>
+    <div style="margin-bottom:12px">
+      <label>Story</label>
+      <textarea id="story" placeholder="The narrative — 3~5 sentences..." style="min-height:100px"></textarea>
+    </div>
+    <div>
+      <label>Engagement Question</label>
+      <textarea id="question" placeholder="One closing question..." style="min-height:56px"></textarea>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Hashtags</div>
+    <label>Tags (comma-separated, no #)</label>
+    <input type="text" id="hashtags" placeholder="quietluxury, herend, finetableware, ...">
+    <p class="hint">14 tags recommended</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">
+      Images
+      <span id="custom-count-badge" class="image-count-badge" style="display:none">0 custom</span>
+    </div>
+    <label style="margin-bottom:10px">My Images (uploaded first, Unsplash/Pexels fills the rest)</label>
+    <div id="image-previews" class="image-previews"></div>
+    <div class="image-upload-zone" id="upload-zone">
+      <input type="file" id="file-input" accept="image/*" multiple onchange="handleFiles(this.files)">
+      <div class="upload-icon">⬆</div>
+      <div class="upload-text">Drop images here or click to select</div>
+      <div class="upload-hint">JPG, PNG — will be uploaded to GitHub alongside the scenario</div>
+    </div>
+    <div class="queries-label">
+      <span>Unsplash / Pexels Queries</span>
+      <small>fills remaining slots</small>
+    </div>
+    <input type="text" id="queries" placeholder="luxury porcelain teacup editorial, royal table vintage, hand painting ceramic">
+    <p class="hint">3 queries recommended</p>
+  </div>
+
+  <div class="github-section">
+    <div class="section-title">GitHub Connection</div>
+    <div class="row">
+      <div>
+        <label>GitHub Token (PAT)</label>
+        <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx">
+      </div>
+      <div>
+        <label>Repo (owner/name)</label>
+        <input type="text" id="gh-repo" value="petrusonoma/auto-blogging">
+      </div>
+    </div>
+    <p class="hint" style="color:#8a8070">Token needs repo + workflow permissions.</p>
+  </div>
+
+  <button class="btn" onclick="submit()">Publish Scenario to Pipeline</button>
+</div>
+
+<script>
+  let sceneCount = 0;
+  let uploadedFiles = [];
+
+  function addScene() {
+    const n = ++sceneCount;
+    const c = document.getElementById('scenes-container');
+    const div = document.createElement('div');
+    div.className = 'scene-block';
+    div.id = `scene-${n}`;
+    div.innerHTML = `
+      <div class="scene-num">Scene ${n}</div>
+      <div class="row">
+        <div style="flex:0 0 80px">
+          <label>Duration (s)</label>
+          <input type="number" id="dur-${n}" value="3" min="1" max="10">
+        </div>
+        <div>
+          <label>Visual Hint (for image search)</label>
+          <input type="text" id="hint-${n}" placeholder="luxury porcelain teacup close-up editorial">
+        </div>
+      </div>
+      <div>
+        <label>Overlay Text (max 5 words)</label>
+        <input type="text" id="overlay-${n}" placeholder="the queen's obsession">
+      </div>`;
+    c.appendChild(div);
+  }
+
+  for (let i = 0; i < 5; i++) addScene();
+
+  function toggleBrand() {
+    const f = document.getElementById('format').value;
+    document.getElementById('brand-field').style.display = f === 'story' ? 'block' : 'none';
+  }
+
+  function handleFiles(files) {
+    Array.from(files).forEach(file => {
+      if (!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadedFiles.push({ file, dataUrl: e.target.result, status: 'pending', githubUrl: null });
+        renderPreviews();
+      };
+      reader.readAsDataURL(file);
+    });
+    document.getElementById('file-input').value = '';
+  }
+
+  function removeFile(index) {
+    uploadedFiles.splice(index, 1);
+    renderPreviews();
+  }
+
+  function renderPreviews() {
+    const container = document.getElementById('image-previews');
+    const badge = document.getElementById('custom-count-badge');
+    container.innerHTML = '';
+    uploadedFiles.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'preview-item';
+      const statusText = item.status === 'done' ? '✓ uploaded' : item.status === 'error' ? '✗ failed' : 'pending';
+      const statusClass = item.status === 'done' ? 'done' : item.status === 'error' ? 'error' : '';
+      div.innerHTML = `
+        <img src="${item.dataUrl}">
+        <button class="remove-btn" onclick="removeFile(${i})">×</button>
+        <div class="upload-status ${statusClass}">${statusText}</div>`;
+      container.appendChild(div);
+    });
+    badge.style.display = uploadedFiles.length > 0 ? 'inline-block' : 'none';
+    badge.textContent = `${uploadedFiles.length} custom`;
+  }
+
+  const zone = document.getElementById('upload-zone');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
+
+  async function uploadImageToGitHub(item, token, repo, ts) {
+    const ext = item.file.name.split('.').pop() || 'jpg';
+    const filename = `img_${ts}_${Math.random().toString(36).slice(2,7)}.${ext}`;
+    const path = `instagram/scenarios/images/${filename}`;
+    const base64 = item.dataUrl.split(',')[1];
+    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+      method: 'PUT',
+      headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: `Add scenario image: ${filename}`, content: base64 })
+    });
+    if (!res.ok) throw new Error('Image upload failed');
+    const data = await res.json();
+    return data.content.download_url;
+  }
+
+  function buildJSON(customImageUrls) {
+    const format = document.getElementById('format').value;
+    const category = document.getElementById('category').value;
+    const scenes = [];
+    for (let i = 1; i <= sceneCount; i++) {
+      const hint = document.getElementById(`hint-${i}`)?.value;
+      if (!hint) continue;
+      scenes.push({
+        duration: parseInt(document.getElementById(`dur-${i}`).value) || 3,
+        visual_hint: hint,
+        overlay_text: document.getElementById(`overlay-${i}`).value || ''
+      });
+    }
+    const hook = document.getElementById('hook').value;
+    const story = document.getElementById('story').value;
+    const question = document.getElementById('question').value;
+    const caption = `${hook}\n\n${story}\n\n${question}`;
+    const hashtags = document.getElementById('hashtags').value.split(',').map(t => t.trim().replace(/^#/, '')).filter(Boolean);
+    const queries = document.getElementById('queries').value.split(',').map(q => q.trim()).filter(Boolean);
+    const obj = { format, category, scenes, caption, hashtags, unsplash_queries: queries };
+    if (format === 'story') obj.brand = document.getElementById('brand').value;
+    if (customImageUrls.length > 0) obj.custom_images = customImageUrls;
+    return obj;
+  }
+
+  function setStatus(type, msg) {
+    const el = document.getElementById('status');
+    el.className = `status ${type}`;
+    el.textContent = msg;
+  }
+
+  async function submit() {
+    const token = document.getElementById('gh-token').value.trim();
+    const repo = document.getElementById('gh-repo').value.trim();
+    if (!token || !repo) { setStatus('error', 'GitHub token and repo are required.'); return; }
+
+    document.querySelector('.btn').disabled = true;
+    const ts = Date.now();
+    const customImageUrls = [];
+
+    if (uploadedFiles.length > 0) {
+      setStatus('loading', `Uploading ${uploadedFiles.length} image(s) to GitHub...`);
+      for (let i = 0; i < uploadedFiles.length; i++) {
+        try {
+          const url = await uploadImageToGitHub(uploadedFiles[i], token, repo, ts);
+          customImageUrls.push(url);
+          uploadedFiles[i].status = 'done';
+        } catch (e) {
+          uploadedFiles[i].status = 'error';
+        }
+        renderPreviews();
+      }
+    }
+
+    setStatus('loading', 'Saving scenario to GitHub...');
+    try {
+      const data = buildJSON(customImageUrls);
+      if (!data.scenes.length) { setStatus('error', 'At least one scene is required.'); document.querySelector('.btn').disabled = false; return; }
+
+      const filename = `${data.category}_${data.format}_${ts}.json`;
+      const path = `instagram/scenarios/${filename}`;
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+
+      const fileRes = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+        method: 'PUT',
+        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: `Add scenario: ${filename}`, content })
+      });
+
+      if (!fileRes.ok) { const e = await fileRes.json(); throw new Error(e.message); }
+
+      setStatus('loading', 'Triggering GitHub Actions...');
+
+      const wfRes = await fetch(`https://api.github.com/repos/${repo}/actions/workflows/instagram_reels.yml/dispatches`, {
+        method: 'POST',
+        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ref: 'main' })
+      });
+
+      const imgMsg = customImageUrls.length > 0 ? ` ${customImageUrls.length} custom image(s) included.` : '';
+      if (!wfRes.ok) {
+        setStatus('success', `✓ Scenario saved.${imgMsg} Run workflow manually in Actions tab.`);
+      } else {
+        setStatus('success', `✓ Done. Scenario saved & pipeline triggered.${imgMsg}`);
+      }
+    } catch (e) {
+      setStatus('error', `Error: ${e.message}`);
+    }
+
+    document.querySelector('.btn').disabled = false;
+  }
+</script>
+</body>
+</html>
