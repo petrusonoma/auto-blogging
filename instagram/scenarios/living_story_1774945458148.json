@@ -1,0 +1,49 @@
+{
+  "format": "story",
+  "category": "living",
+  "scenes": [
+    {
+      "duration": 3,
+      "visual_hint": "Close-up of the LC4 Chaise Longue or LC2 Sofa",
+      "overlay_text": "The furniture chosen by geniuses."
+    },
+    {
+      "duration": 3,
+      "visual_hint": "Slow pan of a minimalist, luxury living room",
+      "overlay_text": "This is Cassina: Where design becomes a legacy."
+    },
+    {
+      "duration": 3,
+      "visual_hint": "Detailed shots of leather stitching or structure",
+      "overlay_text": "They hold the exclusive rights to Le Corbusier's iconic pieces."
+    },
+    {
+      "duration": 3,
+      "visual_hint": "Someone relaxing in a Pierre Jeanneret chair",
+      "overlay_text": "It’s not just a chair; it’s a piece of architectural history."
+    },
+    {
+      "duration": 3,
+      "visual_hint": "A perfectly curated interior space",
+      "overlay_text": "Invest in a masterpiece. Follow for more."
+    }
+  ],
+  "caption": "Ever wondered what makes a piece of furniture an icon? 🏛️🛋️\n\nFor over 90 years, Cassina has been the bridge between visionary architecture and everyday living. From the legendary LC series by Le Corbusier to the timeless designs of Pierre Jeanneret, Cassina doesn't just make furniture—they preserve history.\n\nEach piece is a perfect balance of artisanal craftsmanship and industrial precision. When you see a Cassina original, you aren't just looking at a chair or a sofa; you're looking at a masterpiece that has shaped the modern world.\n\nTrue luxury is about living with art that never goes out of style.\n\nIf you could place one iconic Cassina piece in your dream home, which one would it be? The LC4 Chaise Longue or the LC2 Sofa? Let us know below! 👇✨",
+  "hashtags": [
+    "Cassina #LeCorbusier #ModernInterior #ArchitecturalDesign #LuxuryFurniture #InteriorInspo #QuietLuxury #MidCenturyModern #HomeDecor #TimelessDesign #ArtOfLiving #DesignInspiration #HighEndInteriors"
+  ],
+  "unsplash_queries": [
+    "LC4 Chaise Longue style",
+    "Mid century modern luxury living room",
+    "Le Corbusier style furniture",
+    "Architectural interior design minimalist",
+    "Pierre Jeanneret chair aesthetic"
+  ],
+  "brand": "Cassina",
+  "custom_images": [
+    "https://raw.githubusercontent.com/petrusonoma/auto-blogging/main/instagram/scenarios/images/img_1774945458148_80h39.png",
+    "https://raw.githubusercontent.com/petrusonoma/auto-blogging/main/instagram/scenarios/images/img_1774945458148_mveq1.png",
+    "https://raw.githubusercontent.com/petrusonoma/auto-blogging/main/instagram/scenarios/images/img_1774945458148_dhbzf.png",
+    "https://raw.githubusercontent.com/petrusonoma/auto-blogging/main/instagram/scenarios/images/img_1774945458148_xxhkx.png"
+  ]
+}
