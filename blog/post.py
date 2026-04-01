@@ -235,7 +235,12 @@ PROMPTS = {
 """,
 
     "Sports": """
-[Topic] Luxury Sports - Formula 1, Tennis, EPL & La Liga
+[Topic] Luxury Sports
+[This post must focus on one of the following - rotate and avoid repeating the same sport consecutively]:
+- Formula 1 (Monaco, Silverstone, Monza, driver stories, team culture)
+- Tennis (Wimbledon, Roland-Garros, US Open, Australian Open, player profiles)
+- Football (EPL or La Liga - club stories, iconic players, stadium culture)
+Pick whichever sport has NOT appeared in the recent titles list above.
 [Important] No match result recaps or scorecard summaries.
 [Angle - choose one at random]
 1. A season-defining moment - the strategy, the drama, what it means for the sport
