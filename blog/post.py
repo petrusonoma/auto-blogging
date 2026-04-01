@@ -206,7 +206,7 @@ def post_to_instagram(image_url: str, caption: str) -> bool:
 
         # Step 2: Create Instagram media container
         container_res = requests.post(
-            f"https://graph.facebook.com/v18.0/{INSTAGRAM_USER_ID}/media",
+            f"https://graph.instagram.com/v21.0/{INSTAGRAM_USER_ID}/media",
             data={
                 "image_url": cloudinary_url,
                 "caption": full_caption,
@@ -222,7 +222,7 @@ def post_to_instagram(image_url: str, caption: str) -> bool:
 
         # Step 3: Publish
         publish_res = requests.post(
-            f"https://graph.facebook.com/v18.0/{INSTAGRAM_USER_ID}/media_publish",
+            f"https://graph.instagram.com/v21.0/{INSTAGRAM_USER_ID}/media_publish",
             data={
                 "creation_id": container_id,
                 "access_token": INSTAGRAM_ACCESS_TOKEN,
