@@ -221,6 +221,18 @@ def post_to_instagram(image_url: str, caption: str) -> bool:
         print(f"✅ Instagram container created: {container_id}")
 
         # Step 3: Publish
+        import time
+        for attempt in range(10):
+            time.sleep(5)
+            status_res = requests.get(
+                f"https://graph.instagram.com/v21.0/{container_id}",
+                params={"fields": "status_code", "access_token": INSTAGRAM_ACCESS_TOKEN}
+            )
+            status = status_res.json().get("status_code", "")
+            print(f"    attempt {attempt+1}: {status}")
+            if status == "FINISHED":
+                break
+
         publish_res = requests.post(
             f"https://graph.instagram.com/v21.0/{INSTAGRAM_USER_ID}/media_publish",
             data={
