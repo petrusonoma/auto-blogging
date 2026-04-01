@@ -233,6 +233,10 @@ def post_to_instagram(image_url: str, caption: str) -> bool:
         print(f"✅ Instagram post published: {post_id}")
         return True
 
+    except requests.exceptions.HTTPError as e:
+        print(f"⚠️ Instagram posting failed: {e}")
+        print(f"⚠️ Response body: {e.response.text}")
+        return False
     except Exception as e:
         print(f"⚠️ Instagram posting failed: {e}")
         return False
