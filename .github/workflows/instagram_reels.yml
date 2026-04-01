@@ -1,0 +1,42 @@
+name: Instagram Reels Auto-Publisher
+
+on:
+  schedule:
+    - cron: '0 0 * * *'    # KST 09:00 AM (UTC 00:00)
+    - cron: '30 13 * * *'  # KST 10:30 PM (UTC 13:30)
+  workflow_dispatch:        # Manual trigger for testing
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install system dependencies (ffmpeg)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg fonts-dejavu
+
+      - name: Install Python dependencies
+        run: pip install -r instagram/requirements.txt
+
+      - name: Run Reels pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
+          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: cd instagram && python publish_reels.py
