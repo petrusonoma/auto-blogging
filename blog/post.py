@@ -265,7 +265,7 @@ COMMON_STYLE = """
     <h3>Sub-section heading (if needed)</h3>
     <p>Body paragraph...</p>
 - Fifth to last line: [INSTAGRAM]2-3 sentence Instagram caption summarizing the article's essence, evocative and elegant tone, no hashtags[/INSTAGRAM]
-- Fourth to last line: [HASHTAGS]10-15 relevant Instagram hashtags for this specific article, mix of broad and niche tags, always include #luxury and #whereveryonedreams, no spaces within each tag, space-separated with # symbol (e.g. #rollsroyce #luxurycars #britishluxury #grandtouring #luxury #whereveryonedreams)[/HASHTAGS]
+- Fourth to last line: [HASHTAGS]10-15 relevant Instagram hashtags for this specific article, mix of broad and niche tags, always include #luxury and #whereeveryonedreams, no spaces within each tag, space-separated with # symbol (e.g. #rollsroyce #luxurycars #britishluxury #grandtouring #luxury #whereeveryonedreams)[/HASHTAGS]
 - Third to last line: [LABELS]3-5 specific keyword labels relevant to this exact article, comma-separated[/LABELS]
 - Second to last line: [IMAGE]2-4 word search keyword for a beautiful hero image[/IMAGE]
 - Final line: [META]Up to 155 characters of SEO meta description in English[/META]
@@ -443,7 +443,7 @@ def generate_post(topic: str, recent_titles: list) -> dict:
         raw = raw.split("[LABELS]")[0].strip()
 
     # Extract HASHTAGS
-    hashtags = "#luxury #luxurylifestyle #whereveryonedreams"
+    hashtags = "#luxury #luxurylifestyle #whereeveryonedreams"
     if "[HASHTAGS]" in raw and "[/HASHTAGS]" in raw:
         hashtags = raw.split("[HASHTAGS]")[1].split("[/HASHTAGS]")[0].strip()
         raw = raw.split("[HASHTAGS]")[0].strip()
