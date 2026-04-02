@@ -196,7 +196,7 @@ def upload_to_cloudinary(image_url: str) -> str:
 # ──────────────────────────────────────────
 def post_to_instagram(image_url: str, caption: str) -> bool:
     try:
-        full_caption = f"{caption}\n\n🔗 Full article — link in bio\n\n#luxury #luxurylifestyle #luxuryblog #whereveryonedreams"
+        full_caption = f"{caption}\n\n🔗 Full article — link in bio\n\n{hashtags}"
 
         # Step 1: Upload to Cloudinary for stable public URL
         cloudinary_url = upload_to_cloudinary(image_url)
@@ -270,6 +270,7 @@ COMMON_STYLE = """
     <h3>Sub-section heading (if needed)</h3>
     <p>Body paragraph...</p>
 - Fourth to last line: [INSTAGRAM]2-3 sentence Instagram caption summarizing the article's essence, evocative and elegant tone, no hashtags[/INSTAGRAM]
+- [HASHTAGS]8-12 relevant Instagram hashtags for this specific article, mix of broad and niche tags, no spaces, comma-separated without # symbol (e.g. "rollsroyce, luxurycars, britishluxury, grandtouring")[/HASHTAGS]
 - Third to last line: [LABELS]3-5 specific keyword labels relevant to this exact article, comma-separated[/LABELS]
 - Second to last line: [IMAGE]2-4 word search keyword for a beautiful hero image[/IMAGE]
 - Final line: [META]Up to 155 characters of SEO meta description in English[/META]
