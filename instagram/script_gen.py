@@ -61,25 +61,20 @@ Return this exact JSON structure:
     "question": "One engagement question inviting reflection or personal connection. 1 sentence. Can include 1 emoji."
   }},
   "hashtags": [
+    "STRATEGY: Mix these tiers — 2 large (5M+ posts), 6 medium (500K~5M posts), 6 niche (50K~500K posts). Prefer brand-specific, material-specific, era-specific, or craft-specific tags. AVOID overly broad tags like #handcrafted #minimalism #luxurylifestyle #interiordesign #homedecor. PREFER specific tags like #saintlouiscrystal #heirloompieces #frenchcraft #italianleather #porcelaintableware.",
     "brand_specific_tag",
     "quietluxury",
-    "category_relevant_tag1",
-    "category_relevant_tag2",
-    "category_relevant_tag3",
-    "lifestyle_tag1",
-    "lifestyle_tag2",
-    "lifestyle_tag3",
-    "aesthetic_tag1",
-    "aesthetic_tag2",
+    "medium_tag1",
+    "medium_tag2",
+    "medium_tag3",
+    "medium_tag4",
     "niche_tag1",
     "niche_tag2",
     "niche_tag3",
-    "niche_tag4"
-  ],
-  "unsplash_queries": ["query1 for mood image", "query2 for mood image", "query3 for mood image", "query4 for mood image", "query5 for mood image"]
-}}"""
-
-LIFESTYLE_PROMPT = """Category: {category}
+    "niche_tag4",
+    "niche_tag5",
+    "niche_tag6"
+  ], = """Category: {category}
 
 Write a lifestyle inspiration Instagram Reel pairing a beautiful {category} aesthetic
 with a powerful quote or mindset that resonates with women in their 30s and above.
@@ -109,20 +104,19 @@ Return this exact JSON structure:
     "question": "One gentle engagement question. 1 sentence. Can include 1 emoji."
   }},
   "hashtags": [
+    "STRATEGY: 2 large tags (5M+ posts), 6 medium tags (500K~5M posts), 6 niche tags (50K~500K posts). AVOID: #luxurylifestyle #minimalism #homedecor #handcrafted. PREFER: quote-author-specific, mindset-specific, aesthetic-specific niche tags.",
     "quietluxury",
-    "luxurylifestyle",
-    "mindset_tag1",
-    "mindset_tag2",
-    "aesthetic_tag1",
-    "aesthetic_tag2",
-    "category_tag1",
-    "category_tag2",
-    "womenover30_tag",
-    "inspiration_tag1",
-    "inspiration_tag2",
-    "lifestyle_tag1",
-    "lifestyle_tag2",
-    "lifestyle_tag3"
+    "medium_mindset_tag1",
+    "medium_mindset_tag2",
+    "medium_aesthetic_tag1",
+    "medium_aesthetic_tag2",
+    "medium_category_tag1",
+    "niche_tag1",
+    "niche_tag2",
+    "niche_tag3",
+    "niche_tag4",
+    "niche_tag5",
+    "niche_tag6"
   ],
   "unsplash_queries": [
     "Translate the quote author into a mood/place/era search query — NOT the brand name itself. Examples: 'Coco Chanel' → 'paris atelier vintage fashion', 'Vivienne Westwood' → 'london fashion editorial bold', 'Georgia O Keeffe' → 'desert studio painter minimal', 'anonymous' → use {category} mood keywords like 'luxury interior soft light'. Generate 5 distinct queries this way.",
@@ -161,11 +155,11 @@ Return this exact JSON structure:
     "question": "One engagement question. 1 sentence. Can include 1 emoji."
   }},
   "hashtags": [
+    "STRATEGY: 2 large (5M+), 6 medium (500K~5M), 6 niche (50K~500K). AVOID: #luxurylifestyle #homedecor #handcrafted #minimalism. PREFER: brand-specific, material-specific, craft-specific niche tags.",
     "brand1_tag", "brand2_tag", "brand3_tag",
     "quietluxury",
-    "category_relevant_tag1", "category_relevant_tag2",
-    "lifestyle_tag1", "lifestyle_tag2",
-    "aesthetic_tag1", "aesthetic_tag2",
+    "medium_tag1", "medium_tag2",
+    "medium_tag3", "medium_tag4",
     "niche_tag1", "niche_tag2", "niche_tag3", "niche_tag4"
   ],
   "unsplash_queries": ["query1 for mood image", "query2 for mood image", "query3 for mood image", "query4 for mood image", "query5 for mood image"]
