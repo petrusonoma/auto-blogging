@@ -432,6 +432,8 @@ def generate_post(topic: str, recent_titles: list) -> dict:
             "messages": [{"role": "user", "content": prompt}],
         },
     )
+    if not response.ok:
+        print(f"⚠️ Anthropic API error: {response.text}")
     response.raise_for_status()
     raw = response.json()["content"][0]["text"]
 
