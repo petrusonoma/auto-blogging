@@ -339,6 +339,13 @@ PROMPTS = {
 - Tennis (Wimbledon, Roland-Garros, US Open, player profiles)
 - Football (EPL or La Liga - club stories, iconic players, stadium culture)
 Pick whichever sport has NOT appeared in the recent titles list above.
+SPECIAL REQUEST: Write about Gaël Monfils' retirement at Roland-Garros 2026. 
+He played his final match on May 25, 2026, losing to Hugo Gaston on Court Philippe-Chatrier. 
+21 years on tour, 13 ATP titles, 2 Grand Slam semi-finals. 
+His farewell ceremony included Gasquet, Simon and Tsonga on court.
+He married Ukrainian tennis star Elina Svitolina in 2021, and she was present at his farewell.
+Their love story — two touring professionals finding each other — added a deeply human dimension to his career.
+Focus on his legacy, his bond with the Paris crowd, his love story with Svitolina, and what made him truly unique as a performer and a man.
 [Important] No match result recaps or scorecard summaries.
 [Angle - choose one at random]
 1. A season-defining moment - the strategy, the drama, what it means for the sport
