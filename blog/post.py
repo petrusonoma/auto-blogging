@@ -602,7 +602,7 @@ def main():
     hour_utc = datetime.utcnow().hour
     morning_topic, evening_topic = WEEKLY.get(weekday, ("Travel", "Cars"))
     # UTC 23:00 = KST 08:00 (morning), UTC 10:00 = KST 19:00 (evening)
-    topic = morning_topic if hour_utc >= 20 else evening_topic
+    topic = "Sports"
     print(f"📌 Today's topic: {topic} (weekday: {weekday}, UTC hour: {hour_utc})")
 
     access_token = get_access_token()
