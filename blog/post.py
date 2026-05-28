@@ -475,6 +475,9 @@ def generate_post(topic: str, recent_titles: list) -> dict:
     # Separate title from body
     lines = raw.strip().split("\n")
     title = lines[0].replace("#", "").strip()
+    # Remove any HTML tags from title
+    import re
+    title = re.sub(r'<[^>]+>', '', title).strip()
     content = "\n".join(lines[1:]).strip()
 
     if content.startswith("<h2>") or len(title) > 100:
