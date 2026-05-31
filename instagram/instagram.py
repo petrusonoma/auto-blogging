@@ -35,7 +35,9 @@ def publish_reel(video_path: str, caption: str, hashtags: list[str]) -> str:
     Returns the published media ID.
     """
     # Build final caption — strip any existing # before adding to prevent ##
-    tag_string = " ".join(f"#{t.lstrip('#')}" for t in hashtags)
+    tag_string = " ".join(f"#{t.lstrip('#')}" for t in hashtags
+    if not t.upper().startswith("STRATEGY")
+)
     full_caption = f"{caption}\n\n{tag_string}"
 
     # Step 1: Upload video to Cloudinary for public URL
